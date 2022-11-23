@@ -1,26 +1,55 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
+  <Appbar/>
+ <component :is="currentView" />
+ </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Appbar from './components/Appbar.vue'
+import HomeView from './components/home/HomeView.vue';
+import StaffDir from './components/home/StaffDir.vue';
+const routes = {
+  '/':HomeView,
+  '/staff': StaffDir,
+
+}
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+   Appbar,
+   HomeView,
+  },
+
+  data() {
+    return {
+      currentPath: window.location.hash
+    }
+  },
+  computed: {
+    currentView() {
+      return routes[this.currentPath.slice(1) || '/'] 
+    }
+  },
+  mounted() {
+    window.addEventListener('hashchange', () => {this.currentPath = window.location.hash})
   }
+
+
+
+
 }
+
+
+
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style >
+#app{
+  margin: 0px;
+  background-color: whitesmoke;
+  height: 100vh;
+  overflow-y: hidden;
+  font-family:  sans-serif;
 }
 </style>
+>
